@@ -67,6 +67,10 @@ data:
 
         }
     }
+
+# kubectl create configmap frontend \
+#   --from-file=nginx.conf \
+#   -n roboshop
 ---
 apiVersion: apps/v1
 kind: Deployment
