@@ -105,9 +105,9 @@ spec:
           requests:
             memory: "50Mi"
             cpu: "150m"
-            limits:
-              memory: "100Mi"
-              cpu: "250m"
+          limits:
+            memory: "100Mi"
+            cpu: "250m"
         readinessProbe:
           tcpSocket:
             port: 80
