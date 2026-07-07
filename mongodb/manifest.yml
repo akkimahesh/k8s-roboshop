@@ -27,6 +27,24 @@ spec:
       containers:
       - name: mongodb
         image: akkimahesh/mongodb:v1
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "150m"
+            limits:
+              memory: "150Mi"
+              cpu: "250m"
+        readinessProbe:
+          tcpSocket:
+            port: 27017
+          failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 27017
+          initialDelaySeconds: 15 #wait for 15 seconds before checking the health
+          periodSeconds: 3 #every 3 seconds check the heal
         ports:
         - containerPort: 27017
 ---
