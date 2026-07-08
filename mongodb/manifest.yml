@@ -29,11 +29,11 @@ spec:
         image: akkimahesh/mongodb:v1
         resources:
           requests:
+            memory: "250Mi"
+            cpu: "250m"
+          limits:
             memory: "512Mi"
             cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
         readinessProbe:
           tcpSocket:
             port: 27017
