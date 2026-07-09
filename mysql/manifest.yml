@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: roboshop
+  labels:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: mysql
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        environment: dev
+        tier: db
+        components: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: akkimahesh/mysql:v1
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
+          initialDelaySeconds: 25
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 25 #wait for 25 seconds before checking the health
+          periodSeconds: 3 #every 3 seconds check the health
+        ports:
+        - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: roboshop
+spec:
+  selector:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: mysql
+  ports:
+    - protocol: TCP
+      port: 3306  #service port
+      targetPort: 3306 #container port
