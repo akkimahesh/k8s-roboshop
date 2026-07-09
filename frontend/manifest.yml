@@ -123,9 +123,9 @@ spec:
         ports:
         - containerPort: 80
         volumes:
-      - name: nginx-config
-        configMap:
-          name: frontend
+        - name: nginx-config
+          configMap:
+            name: frontend
         volumeMounts:
         - name: nginx-config
           # by default it mounts and thinks as directory
