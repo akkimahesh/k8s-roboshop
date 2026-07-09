@@ -40,8 +40,8 @@ spec:
       - name: mysql
         image: akkimahesh/mysql:1.2.0
         envFrom:
-      - secretRef:
-          name: mysql-secrets
+        - secretRef:
+            name: mysql-secrets
         resources:
           requests:
             memory: "250Mi"
