@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: shipping
-        image: akkimahesh/shipping:v1
+        image: akkimahesh/shipping:1.2.0
         resources:
           requests:
             memory: "50Mi"
