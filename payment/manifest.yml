@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: akkimahesh/payment:v1
+        image: akkimahesh/payments:v1
         resources:
           requests:
             memory: "50Mi"
