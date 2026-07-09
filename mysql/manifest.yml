@@ -53,13 +53,13 @@ spec:
           tcpSocket:
             port: 3306
           failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
-          initialDelaySeconds: 1000
-          periodSeconds: 10
+          initialDelaySeconds: 60
+          periodSeconds: 20
         livenessProbe:
           tcpSocket:
             port: 3306
-          initialDelaySeconds: 1000 #wait for 25 seconds before checking the health
-          periodSeconds: 3 #every 3 seconds check the health
+          initialDelaySeconds: 60 #wait for 60 seconds before checking the health
+          periodSeconds: 20 #every 20 seconds check the health
         ports:
         - containerPort: 3306
 ---
