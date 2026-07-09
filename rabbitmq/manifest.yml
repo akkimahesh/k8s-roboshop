@@ -6,7 +6,7 @@ metadata:
 data:
   # username: YWRtaW4K
   # password: QWRtaW5AMTIzCg==
-  RABBITMQ_DEFAULT_USER: cm9ib3Nob3A
+  RABBITMQ_DEFAULT_USER: cm9ib3Nob3A=
   RABBITMQ_DEFAULT_PASS: cm9ib3Nob3AxMjM=
 #echo -n "Admin@123" | base64
 #echo -n "QWRtaW5AMTIzCg==" | base64 --decode
