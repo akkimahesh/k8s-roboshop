@@ -45,11 +45,11 @@ spec:
             name: rabbitmq-secrets
         resources:
           requests:
-            memory: "50Mi"
-            cpu: "100m"
+            memory: "250Mi"
+            cpu: "150m"
           limits:
-            memory: "64Mi"
-            cpu: "128m"
+            memory: "556Mi"
+            cpu: "300m"
         readinessProbe:
           tcpSocket:
             port: 5672
