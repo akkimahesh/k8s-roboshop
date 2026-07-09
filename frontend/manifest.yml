@@ -122,6 +122,10 @@ spec:
           periodSeconds: 3 #every 3 seconds check the health
         ports:
         - containerPort: 80
+        volumes:
+      - name: nginx-config
+        configMap:
+          name: frontend
         volumeMounts:
         - name: nginx-config
           # by default it mounts and thinks as directory
