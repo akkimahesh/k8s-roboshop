@@ -58,7 +58,7 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 3306
-          initialDelaySeconds: 25 #wait for 25 seconds before checking the health
+          initialDelaySeconds: 1000 #wait for 25 seconds before checking the health
           periodSeconds: 3 #every 3 seconds check the health
         ports:
         - containerPort: 3306
