@@ -47,7 +47,7 @@ spec:
           tcpSocket:
             port: 8080
           failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
-          initialDelaySeconds: 15
+          initialDelaySeconds: 35
           periodSeconds: 10
         livenessProbe:
           httpGet:
