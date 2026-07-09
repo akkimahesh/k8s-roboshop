@@ -122,9 +122,12 @@ spec:
           periodSeconds: 3 #every 3 seconds check the health
         ports:
         - containerPort: 80
-        envFrom:
-        - configMapRef:
-            name: frontend
+        volumeMounts:
+        - name: nginx-config
+          # by default it mounts and thinks as directory
+          mountPath: "/etc/nginx/nginx.conf"
+          subPath: nginx.conf
+          readOnly: true
 
 ---
 apiVersion: v1
