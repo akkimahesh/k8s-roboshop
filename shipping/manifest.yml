@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+  namespace: roboshop
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOSTL: "mysql"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+      project: roboshop
+      environment: dev
+      tier: backend
+      components: shipping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      environment: dev
+      tier: backend
+      components: shipping
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        environment: dev
+        tier: backend
+        components: shipping
+    spec:
+      containers:
+      - name: shipping
+        image: akkimahesh/shipping:v1
+        resources:
+          requests:
+            memory: "50Mi"
+            cpu: "150m"
+          limits:
+            memory: "100Mi"
+            cpu: "250m"
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15 #wait for 15 seconds before checking the health
+          periodSeconds: 3 #every 3 seconds check the health
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: shipping
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+  namespace: roboshop
+spec:
+  selector:
+      project: roboshop
+      environment: dev
+      tier: backend
+      components: shipping
+  ports:
+    - protocol: TCP
+      port: 8080  #service port
+      targetPort: 8080 #container port
