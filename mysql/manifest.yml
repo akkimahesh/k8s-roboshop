@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secrets
+  namespace: roboshop
+data:
+  # username: YWRtaW4K
+  # password: QWRtaW5AMTIzCg==
+  MYSQL_ROOT_PASSWORD: Um9ib1Nob3BAMQ==
+#echo -n "Admin@123" | base64
+#echo -n "QWRtaW5AMTIzCg==" | base64 --decode
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,7 +38,10 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: akkimahesh/mysql:v1
+        image: akkimahesh/mysql:1.2.0
+        envFrom:
+      - secretRef:
+          name: mysql-secrets
         resources:
           requests:
             memory: "250Mi"
