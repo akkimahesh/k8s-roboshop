@@ -53,7 +53,7 @@ spec:
           tcpSocket:
             port: 3306
           failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
-          initialDelaySeconds: 25
+          initialDelaySeconds: 60
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
