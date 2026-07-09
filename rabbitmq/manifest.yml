@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-secrets
+  namespace: roboshop
+data:
+  # username: YWRtaW4K
+  # password: QWRtaW5AMTIzCg==
+  RABBITMQ_DEFAULT_USER: cm9ib3Nob3A
+  RABBITMQ_DEFAULT_PASS: cm9ib3Nob3AxMjM=
+#echo -n "Admin@123" | base64
+#echo -n "QWRtaW5AMTIzCg==" | base64 --decode
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: roboshop
+  labels:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: rabbitmq
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        environment: dev
+        tier: db
+        components: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:latest
+        envFrom:
+        - secretRef:
+            name: rabbitmq-secrets
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "500m"
+          limits:
+            memory: "1000Mi"
+            cpu: "900m"
+        readinessProbe:
+          tcpSocket:
+            port: 5672
+          failureThreshold: 2 #if the probe fails 2 times, the container will be restarted
+          initialDelaySeconds: 60
+          periodSeconds: 20
+        livenessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 60 #wait for 60 seconds before checking the health
+          periodSeconds: 20 #every 20 seconds check the health
+        ports:
+        - containerPort: 5672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: roboshop
+spec:
+  selector:
+      project: roboshop
+      environment: dev
+      tier: db
+      components: rabbitmq
+  ports:
+    - protocol: TCP
+      port: 5672  #service port
+      targetPort: 5672 #container port
