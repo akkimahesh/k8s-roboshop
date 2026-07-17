@@ -43,6 +43,12 @@ spec:
           limits:
             memory: "600Mi"
             cpu: "550m"
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: liveness-port
+          failureThreshold: 12
+          periodSeconds: 10
         readinessProbe:
           tcpSocket:
             port: 8080
